@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<template id="custom_invoice_report">
+			<t t-call="web.html_container">
+				<t t-call="web.html_container">
+					<t t-call="custom_invoice_report.invoice_external_layout">
+						<t t-foreach="docs" t-as="o">
+							<div class="page">
+								<style type="text/css">
+									
+								.header,
+								.footer {
+									text-align: center;
+								}
+
+								.header h1 {
+									font-size: 24px;
+									text-decoration: underline;
+								}
+
+								.header h2,
+								.footer p {
+									font-size: 16px;
+								}
+
+								.details {
+
+									margin-bottom: 20px;
+									font-size: 9px;
+									font-family: Arial;
+								}
+
+								.details table {
+									width: 100%;
+									border-collapse: collapse;
+									border: 1px solid black;
+								}
+
+								.details th {
+									text-align: center;
+									padding: 2px;
+									border: 1px solid balck;
+									border-bottom: 1px solid black;
+									font-weight: bold;
+								}
+
+								.details td {
+									text-align: center;
+									border: 1px solid balck;
+									padding: 4px;
+								}
+
+								.date_set {
+									text-align: left;
+									border: 1px solid balck;
+									padding: 5px;
+								}
+
+								.items table {
+									width: 100%;
+									border-collapse: collapse;
+									margin-top: 20px;
+
+									margin-bottom: 20px;
+									border: none
+								}
+
+								.items th {
+									border-collapse: collapse;
+									padding: 8px;
+									text-align: center;
+									background-color: #0973a0;
+									color: white;
+								}
+
+								.items td {
+									padding: 5px;
+									text-align: center;
+								}
+
+								.inv table {
+									width: 100%;
+									border-collapse: collapse;
+									margin-bottom: 20px;
+									border: none
+								}
+
+								.inv th {
+									border-collapse: collapse;
+									padding: 8px;
+									text-align: center;
+									background-color: #0973a0;
+									color: #0973a0;
+								}
+
+								.inv td {
+									padding: 5px;
+									text-align: center;
+									background-color: #0973a0;
+								}
+
+
+								.total {
+									text-align: right;
+								}
+
+								.main_div {
+									width: 100%;
+									border-top: 2.5px solid #0973a0;
+									border-bottom: 2.5px solid #0973a0;
+									background-color: hsl(0, 0%, 90%) !important;
+
+								}
+
+								.right_div {
+									width: 50%;
+									float: left;
+									text-align: center;
+									padding-left: 300px;
+									padding-bottom: -10px;
+
+								}
+
+								.left_div {
+									width: 50%;
+									float: left;
+									margin-top: 20px;
+									padding-bottom: 10px;
+
+								}
+
+								.quot_for_data {
+									line-height: normal;
+								}
+
+								.date {
+									text-align: left;
+									padding: 5px;
+									border: 1px solid balck;
+									border-bottom: 1px solid black;
+									font-weight: bold;
+								}
+
+								.main2 {
+									margin-top: 20px;
+								}
+								</style>
+								<div style="padding-top: 100px;">
+									<div class="main_div" style="width: 100%; border-top: 2.5px solid #0973a0; border-bottom: 2.5px solid #0973a0; padding: 20px; box-sizing: border-box; font-family: Arial; overflow: hidden; margin-top: 37px; background-color: #F2F2F2; margin-bottom: 30px;">
+										<!-- Left Section -->
+										<div class="left_section" style="width: 48%; float: left;">
+											<div class="quotation_for" style="margin-bottom: 20px;">
+												<h2 style="font-size: 15px; margin-bottom: 13px; color: #0973a0; font-weight: bold;">Invoice For:</h2>
+												<div style="font-size: 12px; line-height: 0.5;">
+													<p style="margin: 5px 0;"><span t-esc="o.partner_id.name" /></p>
+													<p style="margin: 5px 0;"><span t-esc="o.partner_id.street" /></p>
+													<p style="margin: 5px 0;">
+														<span t-esc="o.partner_id.city" />
+														<span t-esc="o.partner_id.state_id.name" />
+														<span t-esc="o.partner_id.zip" />
+													</p>
+													<p style="margin: 5px 0;"><span t-esc="o.partner_id.country_id.name" /></p>
+												</div>
+												<h2 style="font-size: 15px; margin-top: 13px; color: black; font-weight: bold;">Email:</h2>
+												<div style="font-size: 12px; line-height: 0.5;">
+													<p style="margin: 5px 0;"><span t-esc="o.partner_id.email or ''" /></p>
+												</div>
+											</div>
+										</div>
+										<!-- Right Section -->
+										<div class="right_section" style="width: 40%; float: right; color: white;">
+											<div class="details" style="font-size: 15px;">
+												<div style="clear: both; margin-bottom: 8px; padding: 12px; background-color: #0973a0">
+													<div style="width: 100px; float: left; font-weight: bold;">Invoice No:</div>
+													<div style="text-align: right;"><span t-esc="o.name" /></div>
+												</div>
+												<div style=" background-color: #0973a0; padding: 12px;">
+													<div style="clear: both; margin-bottom: 8px;">
+														<div style="width: 100px; float: left; font-weight: bold;">Invoice Date:</div>
+														<div style="text-align: right;"><span t-esc="o.invoice_date.strftime('%Y-%m-%d')" /></div>
+													</div>
+													<t t-foreach="sale_order_data[o.id]" t-as="so">
+														<div style="clear: both; margin-bottom: 8px;">
+															<div style="width: 100px; float: left; font-weight: bold;">SO:</div>
+															<div style="text-align: right;"><span t-esc="so['name']" /></div>
+														</div>
+														
+
+
+														<div t-if="o.ref" style="clear: both; margin-bottom: 8px;">
+															<div style="width: 100px; float: left; font-weight: bold;">Order Date:</div>
+															<div style="text-align: right;"><span t-esc="so['date_order'].strftime('%Y-%m-%d') if so['date_order'] else ''" /></div>
+														</div>
+													</t>
+													<div style="clear: both; margin-bottom: 8px;">
+														<div style="width: 100px; float: left; font-weight: bold;">Currency:</div>
+														<div style="text-align: right;"><span t-esc="o.currency_id.name" /></div>
+													</div>
+													<div style="clear: both; margin-bottom: 8px;">
+														<div style="width: 100px; float: left; font-weight: bold;">Due Date:</div>
+														<div style="text-align: right;"><span t-esc="o.invoice_date_due" /></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="items" style="font-size: 12px; border-bottom: 2px solid grey;">
+									<div style="font-family: Arial; display: table; width: 100%; border-collapse: collapse;">
+										<div style="display: table-row; font-weight: bold; background-color: #0973a0;">
+											<div style="display: table-cell; color: white; padding: 5px; text-align: center;">No.</div>
+											<div style="display: table-cell; color: white; padding: 5px; text-align: left;">Description</div>
+											<div style="display: table-cell; color: white; padding: 5px; text-align: center;">Quantity</div>
+											<div style="display: table-cell; color: white; padding: 5px; text-align: center;">Unit Price</div>
+											<div style="display: table-cell; color: white; padding: 5px; text-align: center;">Taxes</div>
+											<div style="display: table-cell; color: white; padding: 5px; text-align: center;">Price</div>
+										</div>
+										<t t-foreach="enumerate(o.invoice_line_ids, start=1)" t-as="line">
+											<div style="display: table-row;">
+												<div style="display: table-cell; padding: 5px; border-right: 1px solid #e0e0e0; text-align: center; background-color: t-if='line[0] % 2 == 1' ? 'white' : '#f5f5f5';">
+													<span t-esc="line[0]" />
+												</div>
+												<div style="display: table-cell; padding: 5px; border-right: 1px solid #e0e0e0; text-align: left; background-color: t-if='line[0] % 2 == 1' ? 'white' : '#f5f5f5';">
+													<span t-esc="line[1].name" />
+												</div>
+												<div style="display: table-cell; padding: 5px; border-right: 1px solid #e0e0e0; text-align: center; background-color: t-if='line[0] % 2 == 1' ? 'white' : '#f5f5f5';">
+													<span t-esc="line[1].quantity" />
+												</div>
+												<div style="display: table-cell; padding: 5px; border-right: 1px solid #e0e0e0; text-align: center; background-color: t-if='line[0] % 2 == 1' ? 'white' : '#f5f5f5';" t-options='{"widget": "float", "precision": 2}'>
+													<span t-esc="line[1].price_unit" />
+												</div>
+												<div style="display: table-cell; padding: 5px; border-right: 1px solid #e0e0e0; text-align: center; background-color: t-if='line[0] % 2 == 1' ? 'white' : '#f5f5f5';">
+													<span t-esc="','.join([tax.name for tax in line[1].tax_ids])" />
+												</div>
+												<div style="display: table-cell; padding: 5px; text-align: center; background-color: t-if='line[0] % 2 == 1' ? 'white' : '#f5f5f5';">
+													<span t-esc="line[1].price_subtotal" />
+												</div>
+											</div>
+										</t>
+									</div>
+								</div>
+								<br />
+								<div class="quot_for_data total" style="width:40%; padding-bottom: 3px; float: right; padding-top:20px; font-size: 13px; font-family: Arial; font-weight: bold;">
+									<t t-set="total_discount" t-value="sum((line.price_unit * line.quantity * line.discount) / 100 for line in o.invoice_line_ids)" />
+									<t t-set="total_tax" t-value="sum(line.price_subtotal * (tax.amount / 100) for line in o.invoice_line_ids for tax in line.tax_ids)" />
+									<t t-set="grand_total" t-value="sum(line.price_subtotal for line in o.invoice_line_ids) + total_tax" />
+									<t t-if="o.invoice_line_ids" style="float:left; padding-left:10px;">
+										<p style="border-bottom: 1px solid black; padding-bottom: 4px;"><strong style="float: left; margin-left:4px">SubTotal: </strong>
+											<strong> <span style="padding-right: 4px;" t-esc="sum(line.price_subtotal for line in o.invoice_line_ids)" />
+											</strong>
+										</p>
+										<p style="border-bottom: 1px solid black; padding-bottom: 4px;"><strong style="float: left; margin-left:4px">Taxes:</strong>
+											<strong><span style="padding-right: 4px;" t-esc="'%.2f' % total_tax" /></strong>
+										</p>
+										<p><strong style="float: left; margin-left:4px; font-size: 15px;">TOTAL (MVR): </strong>
+											<strong><span style="padding-right: 4px; font-weight:bold;" t-esc="'%.2f' % grand_total" /></strong></p>
+									</t>
+								</div>
+								<br />
+								<div width="100%" style="font-size: 12px; padding-top: 102px;">
+									<div class="items" style="border-top: 1px solid black" width="100%">
+										<div style="padding-top: 4px; font-size: 15px; font-family: Arial;"><strong>Payment History:</strong></div>
+										<table style="border:none;font-size: 12px; font-family: Arial; margin-top: 7px;">
+											<thead style="border:none;">
+												<tr style="border:none; font-weight: bold;">
+													<th style="color: white; border:none;">Sr.</th>
+													<th style="color: white; border:none;">Date</th>
+													<th style="color: white; border:none;">Method</th>
+													<th style="color: white; border:none;">Ref</th>
+													<th style="color: white; border:none;">Amount</th>
+												</tr>
+											</thead>
+											<tbody style="border:none;">
+												<t t-foreach="o.payment_ids" t-as="line">
+													<tr style="border:none">
+														<td style="border:none;"><span t-esc="line[0]" /></td>
+														<td style="border:none;"><span t-esc="line.invoice_date" /></td>
+														<td style="border:none;"><span t-esc="line.journal_id" /></td>
+														<td style="border:none;"><span t-esc="line.meno" /></td>
+														<td style="border:none;" t-options='{"widget": "float", "precision": 2}'><span t-esc="line.amount" /></td>
+													</tr>
+												</t>
+											</tbody>
+										</table>
+									</div>
+									<div>
+										<ul style="list-style-type: disc; font-size: 11px; padding-top: 30px; font-family: Arial;">
+											<li><strong>Payment Terms: </strong><span t-esc="o.name" /></li>
+											<li><strong>Comment:</strong><span t-esc="o.narration" /></li>
+											<li><strong>Fiscal Position Remark: </strong><span t-esc="o.name" /></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</t>
+					</t>
+				</t>
+			</t>
+		</template>
+		 </data>
+</odoo>

@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+<odoo>
+	<data>
+		<!-- Paper Format -->
+		<record id="paperformat_euro" model="report.paperformat">
+			<field name="name">A4 Landscape</field>
+			<field name="default" eval="True" />
+			<field name="format">A4</field>
+			<field name="orientation">Portrait</field>
+			<field name="margin_top">15</field>
+			<field name="margin_bottom">10</field>
+			<field name="margin_left">10</field>
+			<field name="margin_right">10</field>
+			<field name="header_line" eval="False" />
+			<field name="header_spacing" eval="0" />
+			<field name="dpi">90</field>
+		</record>
+		<!-- Report Action -->
+		<record id="custom_invoice_report_ext" model="ir.actions.report">
+			<field name="name">Custom Invoice</field>
+			<field name="model">account.move</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">custom_invoice_report.custom_invoice_report</field>
+			<field name="report_file">custom_invoice_report.custom_invoice_report</field>
+			<field name="print_report_name">'Invoice - %s' %(object.name)</field>
+			<field name="binding_model_id" ref="account.model_account_move" />
+			<field name="binding_type">report</field>
+			<field name="paperformat_id" ref="paperformat_euro" />
+		</record>
+		<template id="invoice_external_layout">
+			<div class="header">
+				<style>
+				.footer table tbody {
+					border: none !important;
+				}
+
+				.comp_div {
+					width: 100%;
+				}
+
+				.left_logo_rehbar {
+					float: left;
+				}
+
+				.left_logo_rehbar img {
+					height: 90px;
+				}
+
+				.right_company_detail {
+					float: right;
+					width: 50%;
+					line-height: normal;
+					padding-top: 20px;
+				}
+
+				.right_company_detail p {
+					margin: 0px;
+				}
+
+				.right_div_after {
+					padding-top: 7px;
+					text-align: left;
+					float: right;
+					width: 33%;
+				}
+
+				.right_div_after h1 {
+					font-size: 32px;
+				}
+
+				.header_title {
+					margin: 10px 0;
+					width: 100%;
+
+					font-size: 14px;
+				}
+
+				.header_title .left_title,
+				.right_title {
+					float: right;
+					width: 23%;
+					font-size: 16px;
+					margin-right: 80px;
+				}
+
+				.left_title {
+					border: 1px solid rgba(0, 0, 0, .8);
+				}
+
+				.left_title div:first-child,
+				.right_title div:first-child {
+					float: right;
+					padding: 5px 0;
+					width: 50%;
+					text-align: center;
+					border-right: 1px solid rgba(0, 0, 0, .8);
+				}
+
+				.left_title div:last-child,
+				.right_title div:last-child {
+					float: right;
+					padding: 5px 0;
+					text-align: center;
+					width: 40%;
+				}
+
+				.header_title p,
+				.bottom_div-end p {
+					font-size: 16px;
+				}
+
+				.right_title {
+					border-right: 1px solid rgba(0, 0, 0, .8);
+					border-left: 1px solid rgba(0, 0, 0, .8);
+					border-bottom: 1px solid rgba(0, 0, 0, .8);
+				}
+
+				.footer_div {
+					padding: 10px;
+					background-color: #3366cc !important;
+					color: #ffffff !important;
+
+				}
+
+				.footer_custom {
+					justify-content: space-between;
+				}
+
+				.footer-box {
+					width: 23%;
+					box-sizing: border-box;
+					font-size: 12px;
+					margin-right: 1%;
+				}
+
+				.footer-box:last-child {
+					margin-right: 0;
+				}
+				</style>
+				<div style="margin-bottom: 100px; padding-bottom: 100px;">
+					<div style="padding-bottom: 100px;">
+						<div class="left_logo_rehbar" style="padding-right: 20px;">
+							<img t-if="o.company_id.logo" t-attf-src="data:image/*;base64,{{o.company_id.logo}}" />
+						</div>
+						<div class="left_company_detail" style="float: right; text-align: right; font-size: 13px; line-height: 1.2;">
+							<p style="margin: 0; padding: 0; font-size:17px; font-weight: bold; font-family: Arial;">
+								<span t-esc="o.company_id.name" />
+							</p>
+							<p style="margin: 2px 0 0 0; padding: 0; font-family: Arial;">
+								<span t-esc="o.company_id.street + ' ' if o.company_id.street else ''" />
+								<span t-esc="o.company_id.street2 + ' ' if o.company_id.street2 else ''" />
+								<span t-esc="o.company_id.state_id.name if o.company_id.state_id else ''" />
+							</p>
+							<p style="margin: 2px 0 0 0; padding: 0; font-family: Arial;">
+								<span style="font-weight: bold;">Tel:</span>
+								<span t-esc="' ' + o.company_id.phone if o.company_id.phone else ''" />
+								<span t-esc="' | Mob: ' + o.company_id.mobile if o.company_id.mobile else ''" />
+							</p>
+							<p style="margin: 2px 0 0 0; padding: 0; font-family: Arial;">
+								<span style="font-weight: bold;">Website:</span>
+								<span t-esc="' ' + o.company_id.website if o.company_id.website else ''" />
+							</p>
+							<p style="margin: 2px 0 0 0; padding: 0; font-family: Arial;">
+								<span style="font-weight: bold;">TIN No:</span>
+								<span t-esc="' ' + o.company_id.vat if o.company_id.vat else ''" />
+							</p>
+							<p style="margin: 2px 0 0 0; padding: 0; font-family: Arial;">
+								<span style="font-weight: bold;">Email:</span>
+								<span t-esc="' ' + o.company_id.email if o.company_id.email else ''" />
+							</p>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="header_own">
+					<div class="custom_header_invoice">
+						<br />
+						<br />
+						
+					</div>
+				</div> -->
+			</div>
+			<div class="article o_report_layout_background">
+				<t t-raw="0" />
+			</div>
+			<t t-if="sr in ['4','9','29']">
+				<p class="page-break" style="page-break-inside: avoid !important;page-break-after: always !important;" />
+			</t>
+			<div class="footer">
+				<p style="border-top:1px solid black; text-align:center; font-size: 9px; font-family: Arial;">
+					<!-- hsl(0, 0%, 90%); -->
+					<span t-esc="o.company_id.phone" /> |
+					<span t-esc="o.company_id.email" /> |
+					<span t-esc="o.company_id.website" />
+				</p>
+			</div>
+		</template>
+	</data>
+</odoo>
